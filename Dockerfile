@@ -16,7 +16,6 @@ RUN apt-get update \
         libssl-dev \
         libmagic-dev \
         libmagic1 \
-        python-json-logger \
     && rm -rf /var/lib/apt/lists/*
 
 # Clone the open-data CKAN fork and switch to the specified branch
@@ -25,6 +24,7 @@ RUN git clone --branch master https://github.com/open-data/ckan.git
 # Install CKAN
 RUN pip install -e ./ckan
 RUN pip install -r ./ckan/requirements.txt
+RUN pip install python-json-logger
 
 # Clone and install necessary extensions
 # ckanext-canada from our fork
