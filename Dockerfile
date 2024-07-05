@@ -24,8 +24,8 @@ RUN pip install -e ./ckan
 RUN pip install -r ./ckan/requirements.txt
 
 # Clone and install necessary extensions
-# ckanext-canada
-RUN git clone https://github.com/open-data/ckanext-canada.git
+# ckanext-canada from our fork
+RUN git clone https://github.com/gc-performance/ckanext-canada.git
 RUN pip install -e ./ckanext-canada
 
 # ckanext-scheming
