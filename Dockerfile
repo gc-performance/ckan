@@ -17,7 +17,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Clone the open-data CKAN fork and switch to the specified branch
-RUN git clone --branch ckan-2.9 https://github.com/open-data/ckan.git
+RUN git clone --branch master https://github.com/open-data/ckan.git
 
 # Install CKAN
 RUN pip install -e ./ckan
