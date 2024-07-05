@@ -24,31 +24,37 @@ RUN git clone --branch master https://github.com/open-data/ckan.git
 # Install CKAN
 RUN pip install -e ./ckan
 RUN pip install -r ./ckan/requirements.txt
-RUN pip install python-json-logger rdflib geomet future 
+# RUN pip install python-json-logger rdflib geomet future 
 
 # Clone and install necessary extensions
 # ckanext-canada from our fork
 RUN git clone https://github.com/gc-performance/ckanext-canada.git
+RUN pip install -r ./ckanext-canada/requirements.txt
 RUN pip install -e ./ckanext-canada
 
 # ckanext-scheming
 RUN git clone https://github.com/ckan/ckanext-scheming.git
+RUN pip install -r ./ckanext-scheming/requirements.txt
 RUN pip install -e ./ckanext-scheming
 
 # ckanext-security
 RUN git clone https://github.com/open-data/ckanext-security.git
+RUN pip install -r ./ckanext-security/requirements.txt
 RUN pip install -e ./ckanext-security
 
 # ckanext-fluent
 RUN git clone https://github.com/ckan/ckanext-fluent.git
+RUN pip install -r ./ckanext-fluent/requirements.txt
 RUN pip install -e ./ckanext-fluent
 
 # ckanext-recombinant
 RUN git clone https://github.com/open-data/ckanext-recombinant.git
+RUN pip install -r ./ckanext-recombinant/requirements.txt
 RUN pip install -e ./ckanext-recombinant
 
 # ckanext-dcat
 RUN git clone https://github.com/ckan/ckanext-dcat.git
+RUN pip install -r ./ckanext-dcat/requirements.txt
 RUN pip install -e ./ckanext-dcat
 
 
