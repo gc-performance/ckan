@@ -24,7 +24,7 @@ RUN git clone --branch master https://github.com/open-data/ckan.git
 # Install CKAN
 RUN pip install -e ./ckan
 RUN pip install -r ./ckan/requirements.txt
-RUN pip install python-json-logger
+RUN pip install python-json-logger rdflib
 
 # Clone and install necessary extensions
 # ckanext-canada from our fork
@@ -50,7 +50,6 @@ RUN pip install -e ./ckanext-recombinant
 # ckanext-dcat
 RUN git clone https://github.com/ckan/ckanext-dcat.git
 RUN pip install -e ./ckanext-dcat
-
 
 
 # Copy the CKAN configuration file into the container
