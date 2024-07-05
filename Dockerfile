@@ -47,6 +47,12 @@ RUN pip install -e ./ckanext-fluent
 RUN git clone https://github.com/open-data/ckanext-recombinant.git
 RUN pip install -e ./ckanext-recombinant
 
+# ckanext-dcat
+RUN git clone https://github.com/ckan/ckanext-dcat.git
+RUN pip install -e ./ckanext-dcat
+
+
+
 # Copy the CKAN configuration file into the container
 COPY development.ini /etc/ckan/default/development.ini
 
