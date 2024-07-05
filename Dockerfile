@@ -19,12 +19,12 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Clone the open-data CKAN fork and switch to the specified branch
-RUN git clone --branch master https://github.com/open-data/ckan.git
+RUN git clone https://github.com/open-data/ckan.git
 
 # Install CKAN
 RUN pip install -e ./ckan
 RUN pip install -r ./ckan/requirements.txt
-RUN pip install python-json-logger rdflib geomet future googleanalytics
+RUN pip install python-json-logger rdflib geomet future googleanalytics flask jinja2
 
 # Clone and install necessary extensions
 # ckanext-canada from our fork
