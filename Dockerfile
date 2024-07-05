@@ -16,6 +16,7 @@ RUN apt-get update \
         libssl-dev \
         libmagic-dev \
         libmagic1 \
+        python-json-logger \
     && rm -rf /var/lib/apt/lists/*
 
 # Clone the open-data CKAN fork and switch to the specified branch
