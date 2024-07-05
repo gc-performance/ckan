@@ -14,6 +14,8 @@ RUN apt-get update \
         libxml2-dev \
         libxslt1-dev \
         libssl-dev \
+        libmagic-dev \
+        libmagic1 \
     && rm -rf /var/lib/apt/lists/*
 
 # Clone the open-data CKAN fork and switch to the specified branch
