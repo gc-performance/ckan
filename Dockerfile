@@ -25,7 +25,6 @@ RUN git clone https://github.com/open-data/ckan.git
 RUN pip install -r ./ckan/requirements.txt
 RUN pip install -e ./ckan
 RUN pip install python-json-logger rdflib geomet future googleanalytics flask markupsafe 
-RUN pip install --upgrade jinja2
 
 # Clone and install necessary extensions
 # ckanext-canada from our fork
