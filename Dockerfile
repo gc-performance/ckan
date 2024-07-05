@@ -52,7 +52,7 @@ RUN pip install -r ./ckanext-recombinant/requirements.txt
 RUN pip install -e ./ckanext-recombinant
 
 # ckanext-dcat
-RUN git clone https://github.com/ckan/ckanext-dcat.git
+RUN git clone https://github.com/open-data/ckanext-dcat.git
 RUN pip install -r ./ckanext-dcat/requirements.txt
 RUN pip install -e ./ckanext-dcat
 
