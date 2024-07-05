@@ -34,7 +34,6 @@ RUN pip install -e ./ckanext-canada
 
 # ckanext-scheming
 RUN git clone https://github.com/ckan/ckanext-scheming.git
-RUN pip install -r ./ckanext-scheming/requirements.txt
 RUN pip install -e ./ckanext-scheming
 
 # ckanext-security
