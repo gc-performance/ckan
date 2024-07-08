@@ -1,16 +1,16 @@
-version: '3.7'
 services:
   db:
-    image: postgres:12
+    image: postgres:14
     environment:
       POSTGRES_USER: ckan
       POSTGRES_PASSWORD: ckan
       POSTGRES_DB: ckan
     volumes:
       - pg_data:/var/lib/postgresql/data
+      - .devcontainer/postgres-docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
 
   solr:
-    image: solr:8
+    image: ckan/ckan-solr:2.9-solr8
     volumes:
       - solr_data:/opt/solr/server/solr/ckan
     ports:
@@ -25,12 +25,16 @@ services:
     ports:
       - "6379:6379"
 
+  datapusher:
+    image: ckan/ckan-base-datapusher:0.0.19
+
   ckan:
     build: .
     depends_on:
       - db
       - solr
       - redis
+      - datapusher 
     ports:
       - "5000:5000"
     environment:

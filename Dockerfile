@@ -22,7 +22,7 @@ RUN apt-get update \
 RUN git clone https://github.com/open-data/ckan.git
 
 # Install CKAN
-RUN pip install -r ./ckan/requirements.txt
+RUN pip install -r ./ckan/requirements.txt && pip install -r ./ckan/dev-requirements.txt
 RUN pip install -e ./ckan
 RUN pip install python-json-logger rdflib geomet future googleanalytics flask markupsafe 
 
@@ -56,12 +56,42 @@ RUN git clone https://github.com/open-data/ckanext-dcat.git
 RUN pip install -r ./ckanext-dcat/requirements.txt
 RUN pip install -e ./ckanext-dcat
 
+# Run CKAN setup
+RUN python setup.py develop --user
 
-# Copy the CKAN configuration file into the container
-COPY development.ini /etc/ckan/default/development.ini
+# Generate CKAN config file
+RUN ckan generate config ckan.ini
+
+# Set up storage
+RUN mkdir /workspace/data \
+    && ckan config-tool ckan.ini "ckan.storage_path=/workspace/data"
+
+# Set up site URL, assuming environment variables are set for CODESPACE_NAME and GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN
+ARG CKAN_SITE_URL
+RUN ckan config-tool ckan.ini "ckan.site_url=${CKAN_SITE_URL}"
+
+# Initialize the database
+RUN ckan db init
+
+# Create sysadmin user
+RUN ckan user add ckan_admin email=admin@example.com password=test1234 \
+    && ckan sysadmin add ckan_admin
+
+# Set up DataStore + DataPusher
+RUN API_TOKEN=$(ckan user token add ckan_admin datapusher | tail -n 1 | tr -d '\t') \
+    && ckan config-tool ckan.ini "ckan.datapusher.api_token=${API_TOKEN}" \
+    && ckan config-tool ckan.ini \
+        "ckan.datastore.write_url=postgresql://ckan_default:pass@localhost/datastore_default" \
+        "ckan.datastore.read_url=postgresql://datastore_default:pass@localhost/datastore_default" \
+        "ckan.datapusher.url=http://localhost:8800" \
+        "ckan.datapusher.callback_url_base=http://localhost:5000" \
+        "ckan.plugins=activity datastore datapusher datatables_view"
+
+# Set permissions for DataStore
+RUN ckan datastore set-permissions | psql $(grep ckan.datastore.write_url ckan.ini | awk -F= '{print $2}')
 
 # Expose port 5000 for web interface
 EXPOSE 5000
 
 # Run CKAN
-CMD ["ckan", "-c", "/etc/ckan/default/development.ini", "run", "--host", "0.0.0.0"]
+CMD ["ckan", "run", "--host", "0.0.0.0"]
